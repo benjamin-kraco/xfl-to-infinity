@@ -93,7 +93,7 @@ def gameRandomizer(team0,team1,ea,eb):
 	score0 = math.floor(random.randint(3,101)*ea)
 	score1 = math.floor(random.randint(3,101)*eb)
 	if score0 == score1:
-		score0 = score0 + 1
+		score0 = score0 + 3
 	scoresArray = [team0,score0,team1,score1]
 	return scoresArray
 
@@ -232,7 +232,7 @@ for g in range (0,10):
 
 
 
-	fprime = open('fullSeasonTweets.csv','a')
+	fprime = open('fullSeasonTweets.csv','a',newline='')
 
 	with fprime:
 		writer = csv.writer(fprime)
@@ -338,13 +338,26 @@ def ratingRetruner(e):
 	return e['rating']
 
 
-thisSeasonsWins.sort(key=winReturner, reverse=True)
+#thisSeasonsWins.sort(key=winReturner, reverse=True)
 thisSeasonsWins.sort(key=conferenceReturner, reverse =True)
 #print(thisSeasonsWins[0])
 #print(thisSeasonsWins[1])
 #print(thisSeasonsWins[4])
 #print(thisSeasonsWins[5])
 
+thisSeasonsWinsEast = [thisSeasonsWins[4],thisSeasonsWins[5],thisSeasonsWins[6],thisSeasonsWins[7]]
+thisSeasonsWinsEast.sort(key=winReturner, reverse = True)
+print(thisSeasonsWinsEast[0])
+print(thisSeasonsWinsEast[1])
+print(thisSeasonsWinsEast[2])
+print(thisSeasonsWinsEast[3])
+
+thisSeasonsWinsWest = [thisSeasonsWins[0],thisSeasonsWins[1],thisSeasonsWins[2],thisSeasonsWins[3]]
+thisSeasonsWinsWest.sort(key=winReturner, reverse = True)
+print(thisSeasonsWinsWest[0])
+print(thisSeasonsWinsWest[1])
+print(thisSeasonsWinsWest[2])
+print(thisSeasonsWinsWest[3])
 def playoffMatchSim(team0,team1,rating0,rating1):
 	score0 = math.floor(random.randint(3,101))
 	score1 = math.floor(random.randint(3,101))
@@ -356,8 +369,8 @@ def playoffMatchSim(team0,team1,rating0,rating1):
 	else:
 		return [team1,score1,team0,score0]
 
-westPlayoff = playoffMatchSim(thisSeasonsWins[0],thisSeasonsWins[1],thisSeasonsWins[0]['rating'],thisSeasonsWins[1]['rating'])
-eastPlayoff = playoffMatchSim(thisSeasonsWins[4],thisSeasonsWins[5],thisSeasonsWins[4]['rating'],thisSeasonsWins[5]['rating'])
+westPlayoff = playoffMatchSim(thisSeasonsWinsWest[0],thisSeasonsWinsWest[1],thisSeasonsWinsWest[0]['rating'],thisSeasonsWinsWest[1]['rating'])
+eastPlayoff = playoffMatchSim(thisSeasonsWinsEast[0],thisSeasonsWinsEast[1],thisSeasonsWinsEast[0]['rating'],thisSeasonsWinsEast[1]['rating'])
 #print("The " + westPlayoff[0]['name'] + " win the west playoff")
 #print("The " + eastPlayoff[0]['name'] + " win the east playoff")
 
@@ -371,7 +384,7 @@ eastPlayoffTweet = ["The " + str(eastPlayoff[0]['name']) + " win the eastern con
 seasonFinalTweet = ["The " + str(seasonFinal[0]['name']) + " win the XFL championship! " + str(seasonFinal[0]['name']) + ": " + str(seasonFinal[1]) + ", " + str(seasonFinal[2]['name']) + ": " + str(seasonFinal[3])]
 
 
-f = open('fullSeasonTweets.csv','a')
+f = open('fullSeasonTweets.csv','a',newline='')
 
 with f:
 	writer = csv.writer(f)
