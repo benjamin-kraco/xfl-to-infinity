@@ -77,6 +77,7 @@ def calculateEScoresAcrossWeek(week):
 	eaGame3 = calculateEA(week[6].rating,week[7].rating)
 	eaGame3Team = week[6].name
 
+	#ebGame0 = calculateEB(week[0].rating,week[1].rating)
 	ebGame0 = calculateEB(week[0].rating,week[1].rating)
 	ebGame0Team = week[1].name
 	ebGame1 = calculateEB(week[2].rating,week[3].rating)
@@ -90,8 +91,8 @@ def calculateEScoresAcrossWeek(week):
 	return eArray
 
 def gameRandomizer(team0,team1,ea,eb):
-	score0 = math.floor(random.randint(3,101)*ea)
-	score1 = math.floor(random.randint(3,101)*eb)
+	score0 = math.floor(random.randint(3,101))
+	score1 = math.floor(random.randint(3,101))
 	if score0 == score1:
 		score0 = score0 + 3
 	scoresArray = [team0,score0,team1,score1]
@@ -116,17 +117,17 @@ def winnersAndLosers(aIndex,bIndex,week):
 
 def sCalc(matchIndex,eaIndex,ebIndex,week):
 	if ((theWeeksScores(week)[matchIndex][1] > theWeeksScores(week)[matchIndex][3]) and (calculateEScoresAcrossWeek(week)[eaIndex] > calculateEScoresAcrossWeek(week)[ebIndex])):
-		sValueA = 0
-		sValueB = 0
+		sValueA = -0.5
+		sValueB = 0.5
 	elif ((theWeeksScores(week)[matchIndex][1] < theWeeksScores(week)[matchIndex][3]) and (calculateEScoresAcrossWeek(week)[eaIndex] > calculateEScoresAcrossWeek(week)[ebIndex])):
-		sValueA = 0
+		sValueA = -0.5
 		sValueB = 1
 	elif ((theWeeksScores(week)[matchIndex][1] > theWeeksScores(week)[matchIndex][3]) and (calculateEScoresAcrossWeek(week)[eaIndex] < calculateEScoresAcrossWeek(week)[ebIndex])):
 		sValueA = 1
-		sValueB = 0
+		sValueB = -0.5
 	else:
-		sValueA = 0
-		sValueB = 0
+		sValueA = 0.5
+		sValueB = -0.5
 	sValuesArray = [sValueA,sValueB]
 	return sValuesArray
 
@@ -178,10 +179,10 @@ for g in range (0,10):
 	winnersAndLosers(4,5,thisWeek)
 	winnersAndLosers(6,7,thisWeek)
 
-	game0s = sCalc(0,1,3,thisWeek)
-	game1s = sCalc(1,5,7,thisWeek)
-	game2s = sCalc(2,9,11,thisWeek)
-	game3s = sCalc(3,13,15,thisWeek)
+	game0s = sCalc(0,0,2,thisWeek)
+	game1s = sCalc(1,4,6,thisWeek)
+	game2s = sCalc(2,8,10,thisWeek)
+	game3s = sCalc(3,12,14,thisWeek)
 
 	fullWeekRatingUpdate(thisWeek,4,game0s,game1s,game2s,game3s)
 #print(thisWeek[0].name)
@@ -240,6 +241,12 @@ for g in range (0,10):
 		writer.writerow(game1Tweet)
 		writer.writerow(game2Tweet)
 		writer.writerow(game3Tweet)
+
+	#print(theWeeksScores(thisWeek)[0][1])
+	#print(theWeeksScores(thisWeek)[0][3])
+	#print(calculateEScoresAcrossWeek(thisWeek)[0])
+	#print(calculateEScoresAcrossWeek(thisWeek)[2])
+
 
 	g = g + 1
 
@@ -359,8 +366,8 @@ print(thisSeasonsWinsWest[1])
 print(thisSeasonsWinsWest[2])
 print(thisSeasonsWinsWest[3])
 def playoffMatchSim(team0,team1,rating0,rating1):
-	score0 = math.floor(random.randint(3,101))
-	score1 = math.floor(random.randint(3,101))
+	score0 = math.floor(random.randint(3,75)*(1000/rating0))
+	score1 = math.floor(random.randint(3,75)*(1000/rating1))
 	if score0 == score1:
 		score0 = score0 + 1
 		return [team0,score0,team1,score1]
